@@ -44,6 +44,7 @@
     margin-left: 1rem;
     padding: 1rem;
 
+
     table {
         width: 100%;
         border-collapse: collapse;
@@ -70,11 +71,18 @@
   }
   .buttonCard {
     background-color: transparent;
-    
+
     color: #151a4e;
     border: none;
     font-size: 2rem;
     margin-left: auto;
     margin-right: 1rem;
+
+
+    a:visited {color:#151a4e}
+
   }
+
+
+
 }

@@ -1,7 +1,8 @@
 import styles from "./styles.module.scss";
 import { apiUser, apiCode } from "../../api/axios-instance";
 import { useEffect, useState } from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from "react-router-dom";
+
 
 const initialValue = {
   idUsuario: 1,
@@ -13,6 +14,9 @@ export function Panel({ id }) {
   const [userList, setUserlist] = useState([""]);
   const [taxesList, setTaxesList] = useState(initialValue);
   const history = useHistory();
+
+  console.log(id);
+
 
   const getAllUser = async () => {
     const response = await apiUser.get();
@@ -29,35 +33,30 @@ export function Panel({ id }) {
   const onChange = (event) => {
     const { name, value } = event.target;
     setTaxesList({ ...taxesList, [name]: value });
-    console.log(taxesList)
   };
 
-  async function deleteTaxes  (id) {
-    await apiCode.delete(
-      `/${id}?uuid=bcc53fdc-fbc1-4d78-99e7-8cda90065903`
-    );
-  }  
-
-
+  async function deleteTaxes(id) {
+    await apiCode.delete(`/${id}?uuid=bcc53fdc-fbc1-4d78-99e7-8cda90065903`);
+  }
 
   const onSubmit = async (event) => {
     event.preventDefault();
 
     const method = id != 0 ? "put" : "post";
-    const url = id  != 0 ? `/${id}?uuid=bcc53fdc-fbc1-4d78-99e7-8cda90065903` : "/?uuid=bcc53fdc-fbc1-4d78-99e7-8cda90065903";
+    const url =
+      id != 0
+        ? `/${id}?uuid=bcc53fdc-fbc1-4d78-99e7-8cda90065903`
+        : "/?uuid=bcc53fdc-fbc1-4d78-99e7-8cda90065903";
 
-    const response = await apiCode[method](url, taxesList).then(
-      (resp) => {
-        history.push('/');
-        history.go(0);
-      }
-    );
- 
+    const response = await apiCode[method](url, taxesList).then(() => {
+      history.push("/");
+      history.go(0);
+    });
+
     return response;
   };
 
   useEffect(() => {
-    console.log(taxesList)
     getAllUser().then((resp) => setUserlist(resp));
     if (id != 0) {
       getAllTaxes().then((resp) =>
@@ -71,24 +70,23 @@ export function Panel({ id }) {
           }
         })
       );
+    } else {
+      setTaxesList(initialValue);
     }
   }, [id]);
 
-  return (
-    (id ?
+  return id ? (
     <form onSubmit={onSubmit}>
       <div className={styles.editContainer}>
         <div className={styles.editContent}>
-          
           <label>
             <strong>Cliente</strong>
           </label>
-          <select  name="idUsuario" onChange={onChange}>
+          <select name="idUsuario" onChange={onChange}>
             {id != 0
               ? userList.map((user) => {
                   if (taxesList.idUsuario === user.id) {
-                    console.log(user.name);
-                    return <option value={user.id}>{user.name}</option>;
+                    return <option  value={user.id}>{user.name}</option>;
                   }
                 })
               : userList.map((user) => {
@@ -118,9 +116,11 @@ export function Panel({ id }) {
         </div>
         <div className={styles.buttonContainer}>
           <button type="submit">Salvar</button>
-          <button onClick={()=> deleteTaxes(id)}>Excluir</button>
+          <button onClick={() => deleteTaxes(id)}>Excluir</button>
         </div>
       </div>
     </form>
-  : ""))
+  ) : (
+    ""
+  );
 }

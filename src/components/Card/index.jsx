@@ -1,5 +1,5 @@
 import { FaUserCircle } from "react-icons/fa";
-import { MdExpandMore, MdEdit } from "react-icons/md";
+import { MdExpandMore, MdEdit , MdExpandLess } from "react-icons/md";
 import { HiOutlinePlus } from "react-icons/hi";
 import { useState } from "react";
 import styles from "./styles.module.scss";
@@ -46,7 +46,7 @@ export function Card({ user, taxes }) {
             className={styles.buttonCard}
             title={"Dívidas"}
           >
-            <MdExpandMore />
+            {isEdit ? <MdExpandLess /> : <MdExpandMore/>}
           </button>
         ) : (
           ""
@@ -63,7 +63,7 @@ export function Card({ user, taxes }) {
               </tr>
               {taxes.map((resp) => {
                 return (
-                  <tr key={resp.id}>
+                  <tr key={resp._id}>
                     <td>{resp.motivo}</td>
                     <td>R${resp.valor}</td>
                     <td>{format(new Date(resp.criado), "dd/MM/yyyy")}</td>
