@@ -1,3 +1,21 @@
+#Instalando dependecias - "npm install"
+
+#Start do projeto modo dev - "npm start"
+OBS: o projeto está para ser iniciado na porta 3006, conforme o package.json
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
